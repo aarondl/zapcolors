@@ -145,7 +145,7 @@ func (enc *textEncoder) addKey(key string) {
 	} else {
 		enc.firstNested = false
 	}
-	color := (len(enc.bytes) % 7) + 1
+	color := (len(key) % 7) + 1
 	enc.bytes = append(enc.bytes, []byte(fmt.Sprintf("\x1b[3%d;1m%s\x1b[0m", color, key))...)
 	enc.bytes = append(enc.bytes, '=')
 }
