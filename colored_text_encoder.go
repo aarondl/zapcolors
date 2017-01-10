@@ -145,7 +145,14 @@ func (enc *textEncoder) addKey(key string) {
 	} else {
 		enc.firstNested = false
 	}
-	color := (len(key) % 7) + 1
+	
+	var sum int
+	for _, c := range []byte(key) {
+		sum += int(c)	
+	}
+	
+	color := (sum % 7) + 1
+	
 	enc.bytes = append(enc.bytes, []byte(fmt.Sprintf("\x1b[3%d;1m%s\x1b[0m", color, key))...)
 	enc.bytes = append(enc.bytes, '=')
 }
@@ -178,8 +185,10 @@ func (enc *textEncoder) addTime(final *textEncoder, t time.Time) {
 }
 
 func (enc *textEncoder) addMessage(final *textEncoder, msg string) {
-	final.bytes = append(final.bytes, ' ')
-	final.bytes = append(final.bytes, []byte(fmt.Sprintf("%-25s", msg))...)
+	if msg != "" {
+		final.bytes = append(final.bytes, ' ')
+		final.bytes = append(final.bytes, []byte(fmt.Sprintf("%-25s", msg))...)
+	}
 }
 
 // A TextOption is used to set options for a text encoder.
