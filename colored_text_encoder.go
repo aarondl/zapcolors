@@ -145,14 +145,14 @@ func (enc *textEncoder) addKey(key string) {
 	} else {
 		enc.firstNested = false
 	}
-	
+
 	var sum int
 	for _, c := range []byte(key) {
-		sum += int(c)	
+		sum += int(c)
 	}
-	
+
 	color := (sum % 7) + 1
-	
+
 	enc.bytes = append(enc.bytes, []byte(fmt.Sprintf("\x1b[3%d;1m%s\x1b[0m", color, key))...)
 	enc.bytes = append(enc.bytes, '=')
 }
